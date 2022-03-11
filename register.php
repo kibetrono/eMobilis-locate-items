@@ -106,7 +106,7 @@
           </form>
       
             <p class=" text-center">
-              <a href="">Register a new membership</a>
+              <a href="index.html">Login to your account</a>
             </p>
           </div>
           <!-- /.login-card-body -->
@@ -124,11 +124,11 @@
 <!---------------------footer-------------------------->
   <div class="container-fluid footer">
     <div class="row">
-      <div class="col-md-6">
-    <h6 class=" py-3">&#169; 2022: KibRono | All rights reserved</h6>
+      <div class="col-md-6 mt-5">
+    <h6 class="">&#169; 2022: KibRono | All rights reserved</h6>
 
       </div>
-      <div class="col-md-6 py-3">
+      <div class="col-md-6 mt-5">
         <i class="fa fa-facebook "></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="fa fa-twitter "></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="fa fa-linkedin "></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

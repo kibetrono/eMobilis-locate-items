@@ -1,3 +1,11 @@
+<?php
+ session_start();
+ if(empty($_SESSION['userLogin']) || $_SESSION['userLogin'] == ''){
+     header("Location: index.html");
+     die();
+ }
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +22,8 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
  
   <!-- Theme style -->
-  <link rel="stylesheet" href="assets/css/adminlte.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/adminlte.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -26,7 +34,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
       </li>
     
     </ul>
@@ -50,11 +58,11 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-0">
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="text-decoration:none">
-      <img src="assets/img/my_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Lost and Found System</span>
+      <img src="assets/img/my_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-0" style="opacity: .8">
+      <span class="brand-text font-weight-light">Lost && Found System</span>
     </a>
 
     <!-- Sidebar -->
@@ -62,10 +70,10 @@
       <!-- Sidebar user panel (optional) -->
    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-    <img src="assets/img/me.png" class="img-square elevation-3" style="width:30px;  border-radius:10%;" alt="User Image">        </div>
+        <img src="https://konza.softwareske.net/assets/admin/img/160x160/img1.jpg" class="img-square elevation-0" style="width:30px;  border-radius:100px;" alt="User Image">        </div>
         <div class="info">
-          <a href="#" class="d-block" style="margin-top: -12px;text-decoration:none">David Rono</a>
-         <a href="#" style="color: #239db1; font-size: 15px"><i class="fa fa-circle text-primary" style="font-size: 13px;"></i> Admin</a>
+          <a href="#" class="d-block h4" style="text-decoration:none">User</a>
+         <!-- <a href="#" style="color: #239db1; font-size: 15px"><i class="fa fa-circle text-primary" style="font-size: 13px;"></i> Admin</a> -->
         </div>
 
       </div>
@@ -87,10 +95,48 @@
             <a href="items.php" class="nav-link">
               <i class="nav-icon fa fa-list-alt"></i>
               <p>
-               Lost and Found Items
+               Found Items
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="lost_items.php" class="nav-link">
+              <i class="nav-icon fa fa-list-alt"></i>
+              <p>
+               Lost Items
+              </p>
+            </a>
+          </li>
+          <?php
+
+require_once 'connect.php';
+$sql = mysqli_query($conn,"SELECT * FROM users WHERE id = '".$_SESSION['user']."'");
+$result = mysqli_fetch_array($sql);
+// $id = $result['id'];
+$id=$_SESSION['current_user'];
+
+if($id==1){
+
+
+  echo " <li class='nav-item'>
+  <a href='manage.php' class='nav-link'>
+    <i class='nav-icon fa fa-list-alt'></i>
+    <p>
+    Manage Lost Items             
+    </p>
+  </a>
+</li>";
+echo " <li class='nav-item'>
+<a href='managepost.php' class='nav-link'>
+  <i class='nav-icon fa fa-list-alt'></i>
+  <p>
+  Manage Found Items             
+  </p>
+</a>
+</li>";
+}
+
+?>
           <li class="nav-item">
             <a href="report.php" class="nav-link">
               <i class="nav-icon fa fa-list-alt"></i>
@@ -108,10 +154,32 @@
               </p>
             </a>
           </li>
-         
+          <?php
+
+require_once 'connect.php';
+$sql = mysqli_query($conn,"SELECT * FROM users WHERE id = '".$_SESSION['user']."'");
+$result = mysqli_fetch_array($sql);
+// $id = $result['id'];
+$id=$_SESSION['current_user'];
+
+if($id==1){
+
+
+  echo " <li class='nav-item'>
+  <a href='claimedresults.php' class='nav-link'>
+    <i class='nav-icon fa fa-list-alt'></i>
+    <p>
+    Claimed Items             
+    </p>
+  </a>
+</li>";
+
+}
+
+?>
       
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="logout.php" class="nav-link">
               <i class="nav-icon fa fa-sign-out"></i>
               <p>
                 Logout
@@ -136,64 +204,63 @@
 
     <!-- Main content -->
     <section class="content">
-      <form action="" method="POST" autocomplete="off">
+      <form action="verifyreport.php" method="POST" autocomplete="off" enctype="multipart/form-data">
 
         <div class="row">
           <div class="col-md-6">
             <label for="">First Name</label>
-            <input type="text" class="form-control">
+            <input type="text" name="firstname"  class="form-control" placeholder="First Name e.g Rono" required>
           </div>
           <div class="col-md-6">
           <label for="">Last Name</label>
-            <input type="text" class="form-control">
+            <input type="text" name="lastname" class="form-control" placeholder="Last Name e,g Kibet" required>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6">
           <label for="">Email Address</label>
-            <input type="email" class="form-control">
+            <input type="email" name="email" class="form-control " placeholder="Email Address e.g example.gmail.com" required>
           </div>
           <div class="col-md-6">
           <label for="">Telephone Number</label>
-            <input type="tel" class="form-control">
+            <input type="tel" name="mobile" class="form-control" placeholder="Telephone Number e.g 0728234---" required>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6">
             <label for="">Name of item lost</label>
-            <input type="text" class="form-control">
+            <input type="text" name="item_name"  class="form-control" placeholder="Item's name e.g pen"required>
           </div>
           <div class="col-md-6">
             <label for="">Lost Item's Color</label>
-            <input type="text" class="form-control">
+            <input type="text" name="item_color"  class="form-control" placeholder="Item's color e.g blue,black,yellow" required>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6">
-            <label for="">Date Lost</label>
-            <input type="text" class="form-control">
+            <label for="">Time Lost</label>
+            <input type="text" name="time_lost"  class="form-control" placeholder="Time lost e.g 14:20" required>
           </div>
           <div class="col-md-6">
             <label for="">Date Lost</label>
-            <input type="date" class="form-control">
+            <input type="date" name="date_lost" class="form-control" placeholder="Date lost e.g 02/22/2022" required>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6">
             <label for="">Location Lost</label>
-            <input type="text" class="form-control">
+            <input type="text" name="location_lost" class="form-control" placeholder="Lost Location e.g Nairobi,Nakuru" required>
             <br>
             <label for="">Lost Item's Image</label>
-
-<input type="file" class="form-control">
+            <input type="file" name="uploadfile" value="" class="form-control">
           </div>
           <div class="col-md-6">
             <label for="">Lost Item's Description</label><br>
-            <textarea name="" id="" cols="60" rows="5"></textarea>
+            <textarea name="item_description" id="" cols="60" rows="5" placeholder="Lost item's description---" required></textarea>
           </div>
         </div>
 
@@ -202,7 +269,7 @@
         <div class="row my-4">
           <div class="col-md-3"></div>
           <div class="col-md-6">
-            <input type="submit" class="form-control bg-secondary" style="width:100%" value="Report Lost Item">
+            <input type="submit" name="reportitem" class="form-control bg-secondary " style="width:50%;font-size:25px;height:50px" value="Report Lost Item">
           </div>
           <div class="col-md-3"></div>
          

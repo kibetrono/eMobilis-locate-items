@@ -17,7 +17,10 @@
 		
       if(mysqli_num_rows($query) == 1) {   
 
+   $row=$query->fetch_assoc();
+   $_SESSION['current_user']=$row['id'];
 
+         $_SESSION['userLogin'] = "Loggedin";
          header("Location: dashboard.php");
          exit();
 

@@ -1,0 +1,20 @@
+.display{
+    box-shadow: 5px 5px 25px black; 
+    padding: 0px 20px;
+    background-color: #fff;
+    width:32%;
+    margin-left: 10px;
+    float: left;
+ }
+ .displaymanage{
+   box-shadow: 5px 5px 25px black; 
+   padding: 0px 20px;
+   background-color: #fff;
+   width:100%;
+   margin-left: 10px;
+   float: left;
+}
+ .home_section{
+    min-height: 115vh;
+ }
+ 

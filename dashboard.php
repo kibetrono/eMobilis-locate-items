@@ -1,3 +1,12 @@
+
+<?php
+ session_start();
+ if(empty($_SESSION['userLogin']) || $_SESSION['userLogin'] == ''){
+     header("Location: index.html");
+     die();
+ }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +30,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 <div class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -52,11 +64,11 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-0">
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="text-decoration:none">
-      <img src="assets/img/my_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light" >Lost and Found System</span>
+      <img src="assets/img/my_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-0" style="opacity: .8">
+      <span class="brand-text font-weight-light" >Lost && Found System</span>
     </a>
 
     <!-- Sidebar -->
@@ -64,10 +76,12 @@
       <!-- Sidebar user panel (optional) -->
    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-    <img src="assets/img/me.png" class="img-square elevation-3" style="width:30px;  border-radius:10%;" alt="User Image">        </div>
+    <img src="https://konza.softwareske.net/assets/admin/img/160x160/img1.jpg" class="img-square elevation-0" style="width:30px;  border-radius:100px;" alt="User Image">        </div>
         <div class="info">
-          <a href="#" class="d-block" style="margin-top: -12px;text-decoration:none">David Rono</a>
-         <a href="#" style="color: #239db1; font-size: 15px"><i class="fa fa-circle text-primary" style="font-size: 13px;"></i> Admin</a>
+          <a href="#" class="d-block h5" style="text-decoration:none">
+          User
+        </a>
+         <!-- <a href="#" style="color: #239db1; font-size: 15px"><i class="fa fa-circle text-primary" style="font-size: 13px;"></i> Admin</a> -->
         </div>
 
       </div>
@@ -75,8 +89,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+   
           <li class="nav-item menu-open">
             <a href="dashboard.php" class="nav-link">
               <i class="nav-icon fa fa-dashboard"></i>
@@ -85,14 +98,55 @@
               </p>
             </a>
       
-          <li class="nav-item">
+            <li class="nav-item">
             <a href="items.php" class="nav-link">
               <i class="nav-icon fa fa-list-alt"></i>
               <p>
-               Lost and Found Items
+             Found Items
               </p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="lost_items.php" class="nav-link">
+              <i class="nav-icon fa fa-list-alt"></i>
+              <p>
+               Lost Items
+              </p>
+            </a>
+          </li>
+
+          <?php
+
+          require_once 'connect.php';
+          $sql = mysqli_query($conn,"SELECT * FROM users WHERE id = '".$_SESSION['user']."'");
+          $result = mysqli_fetch_array($sql);
+          // $id = $result['id'];
+          $id=$_SESSION['current_user'];
+
+          if($id==1){
+
+
+            echo " <li class='nav-item'>
+            <a href='manage.php' class='nav-link'>
+              <i class='nav-icon fa fa-list-alt'></i>
+              <p>
+              Manage Lost Items             
+              </p>
+            </a>
+          </li>";
+          echo " <li class='nav-item'>
+<a href='managepost.php' class='nav-link'>
+  <i class='nav-icon fa fa-list-alt'></i>
+  <p>
+  Manage Found Items             
+  </p>
+</a>
+</li>";
+
+          }
+
+?>
           <li class="nav-item">
             <a href="report.php" class="nav-link">
               <i class="nav-icon fa fa-list-alt"></i>
@@ -110,9 +164,34 @@
               </p>
             </a>
           </li>
+
       
+          <?php
+
+          require_once 'connect.php';
+          $sql = mysqli_query($conn,"SELECT * FROM users WHERE id = '".$_SESSION['user']."'");
+          $result = mysqli_fetch_array($sql);
+          // $id = $result['id'];
+          $id=$_SESSION['current_user'];
+
+          if($id==1){
+
+
+            echo " <li class='nav-item'>
+            <a href='claimedresults.php' class='nav-link'>
+              <i class='nav-icon fa fa-list-alt'></i>
+              <p>
+              Claimed Items             
+              </p>
+            </a>
+          </li>";
+
+          }
+
+        ?>
+
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="logout.php" class="nav-link">
               <i class="nav-icon fa fa-sign-out"></i>
               <p>
                 Logout
@@ -240,7 +319,8 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!-- AdminLTE App -->
 <script src="assets/js/adminlte.js"></script>
@@ -248,5 +328,38 @@
 <script src="assets/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="assets/js/pages/dashboard.js"></script>
+<script src="Admin/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="Admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="Admin/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="Admin/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="Admin/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="Admin/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="Admin/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="Admin/plugins/moment/moment.min.js"></script>
+<script src="Admin/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="Admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="Admin/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="Admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="Admin/dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="Admin/dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="Admin/dist/js/pages/dashboard.js"></script>
 </body>
 </html>

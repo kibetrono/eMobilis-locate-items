@@ -7,11 +7,18 @@ nav{
     border: 1px solid #ddd;
 }
 .ref_form{
-   width:70%;
+   width:50%;
    border-radius: 20px;
     padding:20px 0px;
 margin: auto;
 min-height: 60vh;
+}
+.log_form{
+    width:50%;
+    border-radius: 20px;
+     padding:20px 0px;
+ margin: auto;
+ min-height: 50vh;  
 }
 .inner-addon{position: relative;}
 
@@ -29,8 +36,8 @@ input{
 
 }
 .footer i{
-    border: 1px solid black;
     padding: 10px;
     border-radius: 100px;
+    font-size: 20px;
 }
 
